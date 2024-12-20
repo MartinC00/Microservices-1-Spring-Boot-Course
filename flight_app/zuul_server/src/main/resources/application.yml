@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: zuul-server
+  cloud:
+    netflix:
+      eureka:
+        client:
+          enabled: true
+server:
+ port: 7100
+zuul:
+  routes:
+    flights-service:
+      path: "/api/flights/**"
+      serviceId: flights-service
+      strip-prefix: false
+    hotels-service:
+      path: "/api/hotels/**"
+      serviceId: hotels-service
+      strip-prefix: false
+    reservations-service:
+      path: "/api/reservations/**"
+      serviceId: reservations-service
+      strip-prefix: false
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+     defaultZone: http://localhost:8761/eureka
+     registerWithEureka: true
+     fetch-registry: true
+
+
+logging:
+  level:
+    com.netflix.loadbalancer: DEBUG  # Ribbon
+    org.springframework.cloud.netflix.zuul: DEBUG  # Zuul
+    com.netflix.zuul: DEBUG  # Zuul details
+    com.netflix.discovery: DEBUG  #  Eureka interactions
+    com.netflix.eureka: DEBUG  #  Eureka

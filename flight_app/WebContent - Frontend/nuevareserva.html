@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<title>Reservas</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div ng-app="comunicacionApp" ng-controller="comunicacionController" class="container">
+	<h1>Reservas</h1>
+	<div class="row">
+		<div class="col-sm-6" style="border:solid 1px">
+			<br/>
+			<div class="form-group">
+				<label>Vuelo</label>
+				<select ng-model="flight" class="form-control" style="width:80%">
+					<option ng-repeat="v in flights" ng-value="v.idFlight">{{v.company}}</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Hotel</label>
+				<select ng-model="hotel" class="form-control" style="width:80%">
+					<option ng-repeat="h in hotels" ng-value="h.idHotel">{{h.name}}</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>DNI</label>
+				<input type="number" min="0" ng-model="dni" class="form-control" style="width:80%"/>
+			</div>
+			<div class="form-group">
+				<label>Nombre</label>
+				<input type="text" ng-model="name" class="form-control" style="width:80%"/>
+			</div>
+			<div class="form-group">
+				<label>Cantidad de Pasajeros</label>
+				<input type="number" ng-model="numberOfPassengers" class="form-control" style="width:80%"/>
+			</div>
+			<br/><br/>
+		</div>
+		<div class="col-sm-6" style="border:solid 1px">
+			<div ng-show="mostrarTabla">
+				<h3>Datos de la reserva</h3>
+				<hr>
+				<h4>Hotel: {{hotel}}</h4>
+				<h4>Numero de vuelo: {{flight}}</h4>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<button ng-click="reservar()" type="button" class="btn btn-primary">Confirmar Reserva</button>
+	<br/><br/><br/>
+	<a href="reservas.html">Ver reservas</a>
+</div>
+<script>
+	var app = angular.module("comunicacionApp", []);
+    app.controller("comunicacionController", function ($scope, $http) {
+        $scope.flights = [];
+        $scope.hotels = [];
+        $scope.hotel = null;
+        $scope.flight = null;
+        $scope.name = "";
+        $scope.dni = "";
+        $scope.numberOfPassengers = "";
+        $scope.mostrarTabla = true;
+
+        // Cargar hoteles
+        $scope.cargarHoteles = function () {
+            let url = "http://localhost:7100/api/hotels";
+            $http.get(url).then(function (res) {
+                $scope.hotels = res.data;
+            }, function (error) {
+                console.error("Error al cargar hoteles:", error);
+            });
+        };
+
+        // Cargar vuelos
+        $scope.cargarVuelos = function () {
+            let url = "http://localhost:7100/api/flights?availableSeats=1";
+            $http.get(url).then(function (res) {
+                $scope.flights = res.data;
+            }, function (error) {
+                console.error("Error al cargar vuelos:", error);
+            });
+        };
+
+        // Realizar reserva
+        $scope.reservar = function () {
+            let url = "http://localhost:7100/api/reservations";
+            let ob = {
+                name: $scope.name,
+                dni: $scope.dni,
+                idHotel: $scope.hotel,
+                idFlight: $scope.flight,
+                numberOfPassengers: $scope.numberOfPassengers
+            };
+            $http.post(url, ob).then(function (response) {
+                alert("Reserva realizada exitosamente!");
+            }, function (error) {
+                console.error("Error al realizar la reserva:", error);
+                alert("No se pudo realizar la reserva. Verifica los datos e inténtalo de nuevo.");
+            });
+        };
+
+        // Inicializar datos
+        $scope.cargarHoteles();
+        $scope.cargarVuelos();
+    });
+</script>
+</body>
+</html>

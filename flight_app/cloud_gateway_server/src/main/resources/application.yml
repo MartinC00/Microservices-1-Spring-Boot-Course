@@ -1,0 +1,49 @@
+server:
+  port: 7100
+spring:
+  application:
+    name: cloud_gateway_server
+  boot:
+    admin:
+      client:
+        url: http://localhost:7100/admin
+        instance:
+          management-base-url: http://localhost:7100
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      routes:
+        - id: reservations-service-id
+          uri: lb://reservations-service  # service id from service registered in Eureka
+          predicates:
+          - Path=/api/reservations/**  # expected URL from request match
+        - id: flights-service-id
+          uri: lb://flights-service
+          predicates:
+            - Path=/api/flights/**
+        - id: hotels-service-id
+          uri: lb://hotels-service
+          predicates:
+            - Path=/api/hotels/**
+      discovery:
+        locator:
+          enabled: true
+      loadbalancer:
+        enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+logging:
+  level:
+    root: info
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: info
+    org.springframework.web.filter.reactive: TRACE
+    org.springframework.cloud.netflix.eureka: DEBUG
+    io.netty.resolver.dns: TRACE
