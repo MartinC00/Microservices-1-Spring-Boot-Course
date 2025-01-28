@@ -12,7 +12,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/flights")
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "*") // zuul needs it
+@CrossOrigin(origins = "*") // zuul needs it
 public class FlightController {
 
     private final iFlightService flightService;

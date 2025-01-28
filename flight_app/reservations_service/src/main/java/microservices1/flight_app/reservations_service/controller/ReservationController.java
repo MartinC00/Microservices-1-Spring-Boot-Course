@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/reservations")
-//@CrossOrigin(origins = "*") //zuul needs it
+@CrossOrigin(origins = "*") //zuul needs it
 public class ReservationController {
 
     private final iReservationService reservationService;

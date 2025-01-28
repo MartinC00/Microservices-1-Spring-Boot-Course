@@ -1,8 +1,10 @@
 spring:
   application:
    name: eureka-service
-  cloud:
-    config:
-      import:
-        optional:
-          configserver: http://localhost:8888
+  config:
+    import:
+    - optional:configserver:http://localhost:8888
+
+logging:
+  level:
+    com.netflix: DEBUG
