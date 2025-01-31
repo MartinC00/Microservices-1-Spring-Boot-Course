@@ -1,0 +1,3 @@
+FROM openjdk:21
+ADD hotels.jar hotels.jar
+ENTRYPOINT java -jar hotels.jar

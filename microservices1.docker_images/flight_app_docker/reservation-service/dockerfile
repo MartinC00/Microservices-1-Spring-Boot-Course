@@ -1,0 +1,3 @@
+FROM openjdk:21
+ADD reservations.jar reservations.jar
+ENTRYPOINT java -jar reservations.jar

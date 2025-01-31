@@ -1,0 +1,37 @@
+services:
+    hotel-service:
+        build: ./hotel-service
+        ports:
+            - 8001:8000
+        environment: 
+            - HOST_DB=host.docker.internal
+            - PORT_DB=3306
+            - USER_DB=root
+            - PASS_DB=root
+            - IP_HOST=host.docker.internal
+            - PORT_HOST=8001
+            - HOST_EUREKA=host.docker.internal
+    flight-service:
+        build: ./flight-service
+        ports:
+            - 9001:9000
+        environment: 
+            - HOST_DB=host.docker.internal
+            - PORT_DB=3306
+            - USER_DB=root
+            - PASS_DB=root
+            - IP_HOST=host.docker.internal
+            - PORT_HOST=9001
+            - HOST_EUREKA=host.docker.internal       
+    reservation-service:
+        build: ./reservation-service
+        ports:
+            - 10001:10000
+        environment: 
+            - HOST_DB=host.docker.internal
+            - PORT_DB=3306
+            - USER_DB=root
+            - PASS_DB=root
+            - IP_HOST=host.docker.internal
+            - PORT_HOST=10001
+            - HOST_EUREKA=host.docker.internal                 

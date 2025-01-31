@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active:
+      - prod
+  application:
+   name: reservations-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+server:
+  port: 10000

@@ -27,7 +27,7 @@ public class ContactListDAOImpl implements iContactListDAO {
 
     @Override
     public List<Contact> getContactListJPA() {
-        simulateDelay(); //useful for async tests
+//        simulateDelay(); //useful for async tests
         return contactListJPA.findAll();
     }
 

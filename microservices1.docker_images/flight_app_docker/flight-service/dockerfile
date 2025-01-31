@@ -1,0 +1,3 @@
+FROM openjdk:21
+ADD flights.jar flights.jar
+ENTRYPOINT java -jar flights.jar
