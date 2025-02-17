@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: client-service
+server:
+  port: 7000
+
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+      register-with-eureka: true
+      fetch-registry: true
